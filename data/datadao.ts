@@ -1,4 +1,4 @@
-import { PrismaClient, Cadastrado, Tarefa, Quadro } from "prisma/prisma-client";
+import { PrismaClient, Cadastrado } from "prisma/prisma-client";
 
 const prisma = new PrismaClient();
 

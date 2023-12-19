@@ -3,7 +3,10 @@ import styles from './page.module.css'
 import Link from 'next/link'
 
 
-export default function Home() {
+export default async function Home() {
+
+
+
     return (
       <div className={styles.body}>
           <header className={styles.header}>
@@ -28,10 +31,6 @@ export default function Home() {
                   Experimente agora e simplifique seu dia a dia!
               </p>
           </section>
-
-          <footer className={styles.footer}>
-              @taskwave
-          </footer>
       </div>
   );
 }
