@@ -32,7 +32,7 @@
 
 .section {
   text-align: center;
-  margin: 50px auto; /* Ajuste aqui para centralizar */
+  margin: 50px auto;
 }
 
 .ul {
@@ -48,13 +48,11 @@
   margin-left: auto;
 }
 
-/***/
-
 .tarefasContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 20px auto; /* Ajuste aqui para centralizar e dar um espaçamento uniforme */
+  margin: 20px auto;
 }
 
 .tarefa {
