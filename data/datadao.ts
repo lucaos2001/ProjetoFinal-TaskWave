@@ -49,3 +49,8 @@ export async function excluirUsuario(email: string ): Promise<boolean> {
   return usuarioCriado ? true : false;
 }
 
+export const findUserByEmail = async (email: string) => {
+  return prisma.cadastrado.findUnique({
+    where: { email },
+  });
+};

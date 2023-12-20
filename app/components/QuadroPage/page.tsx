@@ -36,7 +36,7 @@ export default async function Home ({ params }: { params: any })  {
           <Link href={'/'}>Sair</Link>
         </div>
         <div className={styles.navbarCenter}>
-            Meu Quadro
+          <Link href={'./CriarTarefa'}>Nova Tarefa</Link>
         </div>
         <div className={styles.navbarRight}>
           <span>USUARIO</span>
