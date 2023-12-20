@@ -20,3 +20,14 @@ export async function criarTarefa(tar: Tarefa ): Promise<boolean> {
 
   return tarefaCriada ? true : false;
 }
+
+export async function excluirTarefa(id: number): Promise<boolean> {
+
+  const tarefaExcluida = await prisma.tarefa.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  return tarefaExcluida ? true : false;
+}

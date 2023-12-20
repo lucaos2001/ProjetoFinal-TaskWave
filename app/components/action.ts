@@ -144,6 +144,35 @@ export async function Acessar(prevState: any, formData: FormData) {
         }
     } 
 
+    export async function apagarTarefa(prevState: any, formData: FormData) {
+        const schema = z.object({
+          id: z.string().min(1),
+        });
+      
+        const parse = schema.safeParse({
+          id: formData.get('id'),
+        });
+      
+        if (!parse.success) {
+          return { mensagem: 'Falha ao apagar a TAREFA.' };
+        }
+      
+        const dados = parse.data;
+      
+        // Convertendo o valor do campo 'id' para um número inteiro
+        const idTarefa = parseInt(dados.id, 10);
+      
+        const res = await requisitarAPI('http://localhost:3000/api/apagarTarefa', { id: idTarefa });
+      
+        if (res.resposta) {
+          revalidatePath('/QuadroPage');
+          return { mensagem: 'Tarefa EXCLUIDA' };
+        } else {
+          return { mensagem: 'Não foi possível excluir a TAREFA' };
+        }
+      }
+      
+
 async function requisitarAPI(url: string, conteudo: any) {
 
     const res = await fetch(

@@ -37,6 +37,7 @@ export default async function Home ({ params }: { params: any })  {
         </div>
         <div className={styles.navbarCenter}>
           <Link href={'./CriarTarefa'}>Nova Tarefa</Link>
+          <Link href={'./ApagarTarefa'}>Deletar Tarefa</Link>
         </div>
         <div className={styles.navbarRight}>
           <span>USUARIO</span>

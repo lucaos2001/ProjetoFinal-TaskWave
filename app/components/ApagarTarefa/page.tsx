@@ -2,8 +2,9 @@
 
 import styles from './page.module.css';
 import bg from "../../bground.jpg";
-import { apagarCadastro } from "../action";
+import { apagarTarefa } from "../action";
 import { useFormState, useFormStatus } from "react-dom";
+import Link from 'next/link';
 
 const estadoInicial = {
   mensagem: '',
@@ -20,10 +21,10 @@ function DeleteButton() {
 }
 
 
-export default function FormCadastro() {
+export default function FormExcluir() {
 
 
-  const [state, formAction] = useFormState(apagarCadastro, estadoInicial); 
+  const [state, formAction] = useFormState(apagarTarefa, estadoInicial); 
   
   return (
 
@@ -33,23 +34,22 @@ export default function FormCadastro() {
       }}>
       <div className={styles.container}>
         <form className={styles.registerForm} action={formAction}>
-          <h2>Delete sua conta</h2>
+          <h2>Delete a TAREFA desejada</h2>
           <p>Preencha as informações de acordo</p>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="exemplo@email.com"
+              type="number"
+              name="id"
+              id="id"
+              placeholder="Digite o ID da tarefa"
               required
               className={styles.input}
             />          
           <hr className={styles.hr} />
           <DeleteButton />
+          <Link href="./QuadroPage" className={styles.button}>Voltar</Link>
           <p aria-live='polite' role='status'>{state?.mensagem}</p>
         </form>
       </div>
     </div>
   );
 };
-
-
