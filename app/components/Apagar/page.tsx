@@ -33,8 +33,8 @@ export default function FormCadastro() {
       }}>
       <div className={styles.container}>
         <form className={styles.registerForm} action={formAction}>
-        <h2>Cadastre-se</h2>
-        <p>Preencha as informações de acordo</p>
+          <h2>Cadastre-se</h2>
+          <p>Preencha as informações de acordo</p>
             <input
               type="email"
               name="email"

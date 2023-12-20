@@ -24,7 +24,7 @@ model Tarefa {
   nome      String
   descricao String
   inicio    DateTime @default(now())
-  estado    String @default("afazer")
+  estado    String @default("fazer")
 
   @@map("tarefa")
 }
