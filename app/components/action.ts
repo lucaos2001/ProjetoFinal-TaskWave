@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { useRouter } from 'next/navigation';
 
 export async function novoCadastro(prevState: any, formData: FormData) {
     const schema = z.object({
@@ -41,7 +40,7 @@ export async function novoCadastro(prevState: any, formData: FormData) {
     } else {
         return { mensagem: "Não foi possível cadastrar o usuário!!" };
     }
-} 
+};
 
 export async function apagarCadastro(prevState: any, formData: FormData) {
 
@@ -71,106 +70,110 @@ export async function apagarCadastro(prevState: any, formData: FormData) {
     else {
         return { mensagem: 'Não foi possível excluir o usuario:' + dados.email };
     }
-}
+};
 
 export async function Acessar(prevState: any, formData: FormData) {
+    
     const schema = z.object({
-      email: z.string().min(10),
-      senha: z.string().min(8),
+        email: z.string().min(10),
+        senha: z.string().min(8),
     });
-  
+
     const parse = schema.safeParse({
-      email: formData.get('email'),
-      senha: formData.get('senha'),
+        email: formData.get("email"),
+        senha: formData.get("senha"),
     });
-  
+
     if (!parse.success) {
-      return { mensagem: 'Falha no login.' };
+        console.log("Erro na validação:", parse.error);
+        return { mensagem: "Falha no login. Dados inválidos." };
     }
-  
+
     const dados = parse.data;
-  
-    const router = useRouter();
-  
 
-      const res = await requisitarAPI('http://localhost:3000/api/login', {
-        email: dados.email,
-        senha: dados.senha,
-      });
-  
-      if (res.resposta) {
-        // Redireciona para a página desejada
-        router.push('/NavHome');
-        return { mensagem: 'Bem-vindo!' };
-      } else {
-        return { mensagem: 'E-mail ou senha incorretos.' };
-      }
-    } 
-  
-    export async function novaTarefa(prevState: any, formData: FormData) {
-        const schema = z.object({
-            nome: z.string().min(1),
-            descricao: z.string().min(1),
-            estado: z.string().min(1)
-
-        });
-    
-        const parse = schema.safeParse({
-            nome: formData.get('nome'),
-            descricao: formData.get('descricao'),
-            estado: formData.get('estado')
-        });
-    
-        if (!parse.success) {
-            return { mensagem: "Falha ao cadastrar o usuário" };
-        }
-    
-        const dados = parse.data;
-    
-        
+    try {
         const res = await requisitarAPI(
-            'http://localhost:3000/api/novaTarefa', 
-            {   
-                nome: dados.nome, 
-                descricao: dados.descricao, 
-                estado: dados.estado,
-            });
-    
-        if (res.resposta) {
-            revalidatePath("/");
-            return { mensagem: "Tarefa Criada: " + dados.nome };
-        } else {
-            return { mensagem: "Não foi possível criar a tarefa!!" };
-        }
-    } 
+            "http://localhost:3000/api/login",
+            { email: dados.email, senha: dados.senha }
+        );
 
-    export async function apagarTarefa(prevState: any, formData: FormData) {
-        const schema = z.object({
-          id: z.string().min(1),
-        });
-      
-        const parse = schema.safeParse({
-          id: formData.get('id'),
-        });
-      
-        if (!parse.success) {
-          return { mensagem: 'Falha ao apagar a TAREFA.' };
-        }
-      
-        const dados = parse.data;
-      
-        // Convertendo o valor do campo 'id' para um número inteiro
-        const idTarefa = parseInt(dados.id, 10);
-      
-        const res = await requisitarAPI('http://localhost:3000/api/apagarTarefa', { id: idTarefa });
-      
+            console.log("Resposta da API:", res);
+
         if (res.resposta) {
-          revalidatePath('/QuadroPage');
-          return { mensagem: 'Tarefa EXCLUIDA' };
+            return { mensagem: "Certo!" }
         } else {
-          return { mensagem: 'Não foi possível excluir a TAREFA' };
+            return { mensagem: "E-mail ou senha incorretos." };
         }
-      }
+    } catch (error) {
+        console.error("Erro ao acessar a API:", error);
+        return { mensagem: "Erro ao processar a solicitação." };
+    }
+};
+  
+export async function novaTarefa(prevState: any, formData: FormData) {
+    const schema = z.object({
+        nome: z.string().min(1),
+        descricao: z.string().min(1),
+        estado: z.string().min(1)
+
+    });
+
+    const parse = schema.safeParse({
+        nome: formData.get('nome'),
+        descricao: formData.get('descricao'),
+        estado: formData.get('estado')
+    });
+
+    if (!parse.success) {
+        return { mensagem: "Falha ao cadastrar o usuário" };
+    }
+
+    const dados = parse.data;
+
+    
+    const res = await requisitarAPI(
+        'http://localhost:3000/api/novaTarefa', 
+        {   
+            nome: dados.nome, 
+            descricao: dados.descricao, 
+            estado: dados.estado,
+        });
+
+    if (res.resposta) {
+        revalidatePath("/");
+        return { mensagem: "Tarefa Criada: " + dados.nome };
+    } else {
+        return { mensagem: "Não foi possível criar a tarefa!!" };
+    }
+}; 
+
+export async function apagarTarefa(prevState: any, formData: FormData) {
+    const schema = z.object({
+        id: z.string().min(1),
+    });
+    
+    const parse = schema.safeParse({
+        id: formData.get('id'),
+    });
+    
+    if (!parse.success) {
+        return { mensagem: 'Falha ao apagar a TAREFA.' };
+    }
+    
+    const dados = parse.data;
+    
+    // Convertendo o valor do campo 'id' para um número inteiro
+    const idTarefa = parseInt(dados.id, 10);
+    
+    const res = await requisitarAPI('http://localhost:3000/api/apagarTarefa', { id: idTarefa });
+    
+    if (res.resposta) {
+        revalidatePath('/QuadroPage');
+        return { mensagem: 'Tarefa EXCLUIDA' };
+    } else {
+        return { mensagem: 'Não foi possível excluir a TAREFA' };
+    }
+};
       
 
 async function requisitarAPI(url: string, conteudo: any) {

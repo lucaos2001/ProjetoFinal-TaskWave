@@ -38,6 +38,25 @@ export async function consultarUsuario(email: string, senha: string): Promise<{ 
   }
 }
 
+export async function acessarPerfil(email: string, senha: string): Promise<boolean> {
+  try {
+    // Consulta o usuário usando a função consultarUsuario
+    const usuario = await consultarUsuario(email, senha);
+
+    // Verifica se o usuário foi encontrado
+    if (!usuario) {
+      return false;
+    }
+
+    // Se o usuário foi encontrado, retorna true
+    return true;
+  } catch (error) {
+    // Tratamento de erro - ajuste conforme necessário
+    console.error('Erro ao acessar perfil:', error);
+    return false;
+  }
+}
+
 export async function excluirUsuario(email: string ): Promise<boolean> {
 
   const usuarioCriado = await prisma.cadastrado.delete({
