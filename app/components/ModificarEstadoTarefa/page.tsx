@@ -2,7 +2,7 @@
 
 import styles from './page.module.css';
 import bg from "../../bground.jpg";
-import { novaTarefa } from "../action";
+import { apagarTarefa } from "../action";
 import { useFormState, useFormStatus } from "react-dom";
 import Link from 'next/link';
 
@@ -15,15 +15,16 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button type="submit" aria-disabled={pending} className={styles.button}>Cadastrar</button>
+    <button type="submit" aria-disabled={pending} className={styles.button} >Editar</button>
   );
 
 }
 
-export default function FormTarefas() {
+
+export default function FormEditarEstado() {
 
 
-  const [state, formAction] = useFormState(novaTarefa, estadoInicial);
+  const [state, formAction] = useFormState(apagarTarefa, estadoInicial); 
   
   return (
 
@@ -33,25 +34,16 @@ export default function FormTarefas() {
       }}>
       <div className={styles.container}>
         <form className={styles.registerForm} action={formAction}>
-          <h2>Nova Tarefa</h2>
+          <h2>Altere o estado da TAREFA desejada</h2>
           <p>Preencha as informações de acordo</p>
-          <input
-            type="text"
-            name="nome"
-            id="nome"
-            placeholder="Titulo da tarefa"
-            required
-            autoFocus
-            className={styles.input}
-          />
-          <input
-            type="text"
-            name="descricao"
-            id="descricao"
-            placeholder="Descreva o que deve ser feito"
-            required
-            className={styles.input}
-          />    
+            <input
+              type="number"
+              name="id"
+              id="id"
+              placeholder="Digite o ID da tarefa"
+              required
+              className={styles.input}
+            />          
           <hr className={styles.hr} />
           <fieldset>
             <legend className={styles.legend}>Qual o estado da tarefa?</legend>
@@ -62,12 +54,11 @@ export default function FormTarefas() {
             <input type="radio" id="feito" name="estado" value="feito" />
             <label>Feito</label>  
           </fieldset>
-          <hr className={styles.hr} />
-          <p aria-live='polite' role='status'>{state?.mensagem}</p>
           <SubmitButton />
           <Link href="./QuadroPage" className={styles.button}>Voltar</Link>
+          <p aria-live='polite' role='status'>{state?.mensagem}</p>
         </form>
       </div>
-    </div>  
+    </div>
   );
 };
