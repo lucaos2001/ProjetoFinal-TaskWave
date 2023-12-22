@@ -2,46 +2,14 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 import { Quadro, Tarefa } from 'prisma/prisma-client';
-
-
-async function requisitarAPI(nome: string): Promise<Array<Tarefa>> {
-
-    const res = await fetch(
-      'http://localhost:3000/api/obterTarefas',
-      { method: 'POST', body: JSON.stringify({ nome: nome }) }
-    );
-  
-    if (!res.ok) {
-      throw Error('Não foi possível obter os comentários');
-    }
-  
-    return res.json();
-  }
-
-async function buscarQuadros(nome: string): Promise<Array<Quadro>> {
-
-  const res = await fetch(
-    'http://localhost:3000/api/obterQuadros',
-    { method: 'POST', body: JSON.stringify({ nome: nome }) }
-  );
-
-  if (!res.ok) {
-    throw Error('Não foi possível obter os quadros');
-  }
-
-  return res.json();
-};
-
-function formatarData(dataString) {
-  const dataObj = new Date(dataString);
-  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-  return dataObj.toLocaleDateString('pt-BR', options);
-}
+import { retornarQuadros } from '@/data/quadros';
+import { retornarTarefas } from '@/data/tarefas';
+import { formatarData } from '@/data/tarefas';
 
 
 export default async function HomePage({ params }: { params: any }) {
-  const titulos = await requisitarAPI(params.nome);
-  const quadros = await buscarQuadros(params.nome);
+  const titulos = await retornarTarefas(params.nome);
+  const quadros = await retornarQuadros(params.nome);
 
   return (
     <div className={styles.body}>

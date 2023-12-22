@@ -1,33 +1,13 @@
 "use client"
 import styles from "./page.module.css";
 import Link from 'next/link';
-
+import { formatarData } from '@/data/tarefas';
+import { retornarTarefas } from '@/data/tarefas';
 import { Tarefa } from 'prisma/prisma-client';
-
-
-async function requisitarAPI(nome: string): Promise<Array<Tarefa>> {
-
-  const res = await fetch(
-    'http://localhost:3000/api/obterTarefas',
-    { method: 'POST', body: JSON.stringify({ nome: nome }) }
-  );
-
-  if (!res.ok) {
-    throw Error('Não foi possível obter as tarefas');
-  }
-
-  return res.json();
-  }
-  
-  function formatarData(dataString) {
-    const dataObj = new Date(dataString);
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return dataObj.toLocaleDateString('pt-BR', options);
-  }
 
 export default async function Home ({ params }: { params: any })  {
 
-  const tarefas = await requisitarAPI(params.nome);
+  const tarefas = await retornarTarefas(params.nome);
 
   return (
     <div className={styles.body}>

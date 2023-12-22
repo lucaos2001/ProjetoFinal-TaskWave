@@ -47,3 +47,24 @@ export const editarTarefa = async (id: number, estado: string) => {
     data: { estado: estado },
   });
 };
+
+
+export async function retornarTarefas(nome: string): Promise<Array<Tarefa>> {
+
+  const res = await fetch(
+    'http://localhost:3000/api/obterTarefas',
+    { method: 'POST', body: JSON.stringify({ nome: nome }) }
+  );
+
+  if (!res.ok) {
+    throw Error('Não foi possível obter as tarefas');
+  }
+
+  return res.json();
+}
+
+export function formatarData(data: string) {
+  const dataObj = new Date(Date.parse(data)); // Convertendo a string para valor numérico
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  return dataObj.toLocaleDateString('pt-BR', options);
+}
