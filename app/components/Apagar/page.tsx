@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link';
 import styles from './page.module.css';
 import bg from "../../bground.jpg";
 import { apagarCadastro } from "../action";
@@ -45,6 +46,7 @@ export default function FormCadastro() {
             />          
           <hr className={styles.hr} />
           <DeleteButton />
+          <Link href="/" className={styles.button}>Voltar</Link>
           <p aria-live='polite' role='status'>{state?.mensagem}</p>
         </form>
       </div>

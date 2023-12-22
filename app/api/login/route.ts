@@ -5,12 +5,9 @@ export async function POST(request: Request) {
     const email = res.email;
     const senha = res.senha;
     const user = await consultarUsuario(email, senha);
-    console.log("Enail: ", user?.email, "Senha", user?.senha)
-
-
     if (!email || !senha || !user || (user?.email !== email || user?.senha !== senha)) {
         return Response.json({ resposta: false });
     }
-
+    
     return Response.json({ resposta: true });
 }

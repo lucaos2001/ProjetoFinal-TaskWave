@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { LocalStorage } from 'node-localstorage';
 
 export async function novoCadastro(prevState: any, formData: FormData) {
     const schema = z.object({
@@ -73,7 +74,6 @@ export async function apagarCadastro(prevState: any, formData: FormData) {
 };
 
 export async function Acessar(prevState: any, formData: FormData) {
-    
     const schema = z.object({
         email: z.string().min(10),
         senha: z.string().min(8),
@@ -89,7 +89,11 @@ export async function Acessar(prevState: any, formData: FormData) {
         return { mensagem: "Falha no login. Dados inválidos." };
     }
 
-    const dados = parse.data;
+    const dados = parse.data; 
+
+    const localStorage = new LocalStorage('@/scratch');
+    localStorage.setItem("usuarioEmail", dados.email);
+    console.log("local:", localStorage.getItem("usuarioEmail"));
 
     try {
         const res = await requisitarAPI(
@@ -97,10 +101,12 @@ export async function Acessar(prevState: any, formData: FormData) {
             { email: dados.email, senha: dados.senha }
         );
 
-            console.log("Resposta da API:", res);
+        console.log("Resposta da API:", res);
 
         if (res.resposta) {
-            return { mensagem: "Certo!" }
+            
+
+            return { mensagem: "Certo!" };
         } else {
             return { mensagem: "E-mail ou senha incorretos." };
         }

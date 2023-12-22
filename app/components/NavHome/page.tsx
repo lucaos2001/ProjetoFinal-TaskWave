@@ -4,12 +4,28 @@ import styles from './page.module.css';
 import { Quadro, Tarefa } from 'prisma/prisma-client';
 import { retornarQuadros } from '@/data/quadros';
 import { retornarTarefas } from '@/data/tarefas';
+import { findUserByEmail } from '@/data/datadao';
 import { formatarData } from '@/data/tarefas';
+
+
+let localStorage;
+
+if (typeof window !== 'undefined') {
+  localStorage = window.localStorage;
+} else {
+  const { LocalStorage } = require('node-localstorage');
+  localStorage = new LocalStorage('@/scratch');
+}
+
+
 
 
 export default async function HomePage({ params }: { params: any }) {
   const titulos = await retornarTarefas(params.nome);
   const quadros = await retornarQuadros(params.nome);
+  
+  const usuarioEmail = localStorage.getItem('usuarioEmail');
+  const usuario = await findUserByEmail(usuarioEmail);
 
   return (
     <div className={styles.body}>
@@ -23,7 +39,7 @@ export default async function HomePage({ params }: { params: any }) {
           <Link href={'/novoQuadro'}>+Quadro</Link>
         </div>
         <div className={styles.navbarRight}>
-          <span>USUARIO</span>
+          <span>{usuario?.nome}</span>
         </div>
       </header>
 

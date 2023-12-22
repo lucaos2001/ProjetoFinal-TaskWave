@@ -10,6 +10,7 @@ const estadoInicial = {
   mensagem: '',
 }
 
+localStorage.removeItem("usuarioEmail")
 
 function SubmitButton() {
 
