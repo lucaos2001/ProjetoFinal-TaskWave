@@ -6,4 +6,3 @@ export async function obterQuadro(): Promise<Array<Quadro>> {
     const quadros = await prisma.quadro.findMany();
     return quadros;
   }
-  

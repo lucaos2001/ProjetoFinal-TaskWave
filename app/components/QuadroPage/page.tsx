@@ -5,15 +5,15 @@ import Link from 'next/link';
 import { Tarefa } from 'prisma/prisma-client';
 
 
-async function requisitarAPI(titulo: string): Promise<Array<Tarefa>> {
+async function requisitarAPI(nome: string): Promise<Array<Tarefa>> {
 
   const res = await fetch(
     'http://localhost:3000/api/obterTarefas',
-    { method: 'POST', body: JSON.stringify({ titulo: titulo }) }
+    { method: 'POST', body: JSON.stringify({ nome: nome }) }
   );
 
   if (!res.ok) {
-    throw Error('Não foi possível obter os comentários');
+    throw Error('Não foi possível obter as tarefas');
   }
 
   return res.json();
@@ -27,7 +27,7 @@ async function requisitarAPI(titulo: string): Promise<Array<Tarefa>> {
 
 export default async function Home ({ params }: { params: any })  {
 
-  const titulos = await requisitarAPI(params.nome);
+  const tarefas = await requisitarAPI(params.nome);
 
   return (
     <div className={styles.body}>
@@ -48,7 +48,7 @@ export default async function Home ({ params }: { params: any })  {
         <div className={styles.lista}>
           <h2 className={styles.title}>A fazer</h2>
           <div className={styles.tarefasContainer}>
-            {titulos
+            {tarefas
               .filter((c: Tarefa) => c.estado === 'fazer')
               .map((c: Tarefa) => (
                 <div key={c.id} className={styles.tarefa}>
@@ -65,7 +65,7 @@ export default async function Home ({ params }: { params: any })  {
         <div className={styles.lista}>
           <h2 className={styles.title}>Fazendo</h2>
           <div className={styles.tarefasContainer}>
-            {titulos
+            {tarefas
               .filter((c: Tarefa) => c.estado === 'fazendo')
               .map((c: Tarefa) => (
                 <div key={c.id} className={styles.tarefa}>
@@ -81,7 +81,7 @@ export default async function Home ({ params }: { params: any })  {
         <div className={styles.lista}>
           <h2 className={styles.title}>Feito</h2>
           <div className={styles.tarefasContainer}>
-            {titulos
+            {tarefas
               .filter((c: Tarefa) => c.estado === 'feito')
               .map((c: Tarefa) => (
                 <div key={c.id} className={styles.tarefa}>
