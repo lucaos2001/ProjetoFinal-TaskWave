@@ -2,7 +2,7 @@
 
 import styles from './page.module.css';
 import bg from "../../bground.jpg";
-import { apagarTarefa } from "../action";
+import { editarTarefa } from '../action';
 import { useFormState, useFormStatus } from "react-dom";
 import Link from 'next/link';
 
@@ -24,7 +24,7 @@ function SubmitButton() {
 export default function FormEditarEstado() {
 
 
-  const [state, formAction] = useFormState(apagarTarefa, estadoInicial); 
+  const [state, formAction] = useFormState(editarTarefa, estadoInicial); 
   
   return (
 

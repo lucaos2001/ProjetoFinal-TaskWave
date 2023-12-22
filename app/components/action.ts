@@ -174,7 +174,48 @@ export async function apagarTarefa(prevState: any, formData: FormData) {
         return { mensagem: 'Não foi possível excluir a TAREFA' };
     }
 };
-      
+
+export async function editarTarefa(prevState: any, formData: FormData) {
+    const schema = z.object({
+        id: z.string().min(1),
+        estado: z.string().min(1),
+    });
+
+    const parse = schema.safeParse({
+        id: formData.get('id'),
+        estado: formData.get('estado')
+    });
+
+    if (!parse.success) {
+        return { mensagem: 'Falha ao editar a TAREFA.' };
+    }
+
+    const dados = parse.data;
+
+    const idTarefa = parseInt(dados.id, 10);
+
+    const res = await requisitarAPI('http://localhost:3000/api/editarTarefa', { id: idTarefa, estado: dados.estado});
+
+    console.log("Resposta da API: ", res)
+    
+    if (res.resposta) {
+        return { mensagem: 'Tarefa modificada' };
+    } else {
+        return { mensagem: 'Não foi possível modificar a TAREFA' };
+    }
+
+}
+
+// async function renderizar (prevState: any, formData: FormData) {
+//     const schema = z.object({
+//         email: z.string().min(10),
+//     });
+
+//     const parse = schema.safeParse({
+//         email: formData.get("email"),
+//     });
+
+// }
 
 async function requisitarAPI(url: string, conteudo: any) {
 

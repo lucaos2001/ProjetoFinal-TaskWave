@@ -31,3 +31,19 @@ export async function excluirTarefa(id: number): Promise<boolean> {
 
   return tarefaExcluida ? true : false;
 }
+
+
+export const findTarefaByID = async (id: number) => {
+  return prisma.tarefa.findUnique({
+    where: {
+      id,
+    }
+  });
+};
+
+export const editarTarefa = async (id: number, estado: string) => {
+  return await prisma.tarefa.update({
+    where: { id },
+    data: { estado: estado },
+  });
+};

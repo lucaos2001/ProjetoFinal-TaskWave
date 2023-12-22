@@ -33,7 +33,7 @@ export default async function Home ({ params }: { params: any })  {
     <div className={styles.body}>
       <header className={styles.navbar}>
         <div className={styles.navbarLeft}>
-          <Link href={'/'}>Sair</Link>
+          <Link href={'./NavHome'}>Voltar</Link>
         </div>
         <div className={styles.navbarCenter}>
           <Link href={'./CriarTarefa'}>Nova Tarefa</Link>
